@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smooth Fixed Navbar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .navbar {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #3B82F6;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .mobile-menu {
+            transition: max-height 0.5s ease, opacity 0.4s ease;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Smooth Fixed Navbar -->
+    <nav class="navbar fixed top-0 w-full bg-white z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-blue-600 font-bold text-xl">SmoothNav</span>
+                    </div>
+                    <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
+                        <a href="#" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 transition duration-150">Home</a>
+                        <a href="#" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 transition duration-150">Features</a>
+                        <a href="#" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 transition duration-150">Pricing</a>
+                        <a href="#" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 transition duration-150">About</a>
+                        <a href="#" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 transition duration-150">Contact</a>
+                    </div>
+                </div>
+                
+                <!-- Desktop buttons -->
+                <div class="hidden md:flex items-center">
+                    <div class="ml-4 flex items-center md:ml-6 space-x-3">
+                        <button class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-md text-sm font-medium transition duration-150">
+                            Sign In
+                        </button>
+                        <button class="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium transition duration-150">
+                            Sign Up
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="flex items-center md:hidden">
+                    <button type="button" id="mobile-menu-button" class="bg-gray-100 p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-200 focus:outline-none transition duration-150">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition duration-150">Home</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition duration-150">Features</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition duration-150">Pricing</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition duration-150">About</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition duration-150">Contact</a>
+            </div>
+            <div class="pt-4 pb-3 border-t border-gray-200 px-4 space-y-3">
+                <button class="w-full bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-md text-base font-medium transition duration-150">
+                    Sign In
+                </button>
+                <button class="w-full bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-base font-medium transition duration-150">
+                    Sign Up
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    
+</body>
+<script>
+        // Toggle mobile menu
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('open');
+            
+            // Change icon
+            const icon = this.querySelector('i');
+            if (mobileMenu.classList.contains('open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuButton = document.getElementById('mobile-menu-button');
+            
+            if (!mobileMenu.contains(event.target) && !menuButton.contains(event.target) && mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+                const icon = menuButton.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
+</html>
